@@ -59,11 +59,21 @@ pub const FT3268_DEVICE_ADDRESS: u8 = 0x38;
 
 const FT3X68_RD_DEVICE_GESTUREID: u8 = 0xD3;
 const FT3X68_RD_DEVICE_FINGERNUM: u8 = 0x02;
-// XPOSH is the first of four contiguous registers (XH, XL, YH, YL) that
-// `read_point` reads in one write_read call; the other three have no named
-// constant since they're only ever addressed by that fixed offset.
+// read_point reads a point's XH, XL, YH, YL as one block from the XH offset.
 const FT3X68_RD_DEVICE_X1POSH: u8 = 0x03;
+#[allow(dead_code)]
+const FT3X68_RD_DEVICE_X1POSL: u8 = 0x04;
+#[allow(dead_code)]
+const FT3X68_RD_DEVICE_Y1POSH: u8 = 0x05;
+#[allow(dead_code)]
+const FT3X68_RD_DEVICE_Y1POSL: u8 = 0x06;
 const FT3X68_RD_DEVICE_X2POSH: u8 = 0x09;
+#[allow(dead_code)]
+const FT3X68_RD_DEVICE_X2POSL: u8 = 0x0A;
+#[allow(dead_code)]
+const FT3X68_RD_DEVICE_Y2POSH: u8 = 0x0B;
+#[allow(dead_code)]
+const FT3X68_RD_DEVICE_Y2POSL: u8 = 0x0C;
 const FT3X68_RD_WR_DEVICE_GESTUREID_MODE: u8 = 0xD0;
 const FT3X68_RD_WR_DEVICE_POWER_MODE: u8 = 0xA5;
 const FT3X68_RD_WR_DEVICE_PROXIMITY_SENSING_MODE: u8 = 0xB0;
