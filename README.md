@@ -1,6 +1,8 @@
 # FT3x68 Touch Controller Driver Crate
 
-> **About this fork (`fbartho/ft3x68-rs`).** `main` is the default branch and carries two changes proposed upstream: a build configuration that makes plain `cargo test` work on the pinned toolchain, with the embedded build behind the `build-esp32s3` alias ([upstream issue #2](https://github.com/theembeddedrustacean/ft3x68-rs/issues/2) asks the maintainer which shape they prefer), and a touch-read fix that masks `TD_STATUS` to its touch-count nibble and honors the per-point event flag. `master` tracks upstream unchanged. Consumers who want the fixes depend on this fork's `main`; the proposed changes live on `chore/host-tests` and `fix/td-status-touch-count` for the upstream pull requests.
+> **About this fork (`fbartho/ft3x68-rs`).** `main` is the default branch and carries two changes proposed upstream: the driver crate becomes target-agnostic, with the ESP32-S3 cargo config, toolchain file, and linker arguments moved into a standalone example project under `examples/esp32s3/`, and a touch-read fix that masks `TD_STATUS` to its touch-count nibble and honors the per-point event flag. `master` tracks upstream unchanged. Consumers who want the fixes depend on this fork's `main`.
+>
+> **Branching rule.** Every upstream-bound branch forks from `master`, never from `main`, so its pull-request diff against upstream carries only the proposed change. Those branches are then merged into `main`, which is where the fork's own consumer-facing state accumulates. The current upstream branches are `chore/target-agnostic-crate` and `fix/td-status-touch-count-2`.
 
 
 A driver for the FT3x68 touch controller(s), providing functionality to read touch points, gestures, and manage power modes.
@@ -50,13 +52,16 @@ loop {
 
 ## Running the Example
 
-The `touch` example targets the Xtensa ESP32-S3 chip this driver ships firmware for, so it needs an explicit target override:
+The driver crate itself is target-agnostic. The chip-specific example lives in [`examples/esp32s3/`](examples/esp32s3) as a separate cargo project that depends on this crate by path and carries its own target, toolchain, and linker configuration.
+
+Building or flashing it needs the Espressif Xtensa Rust toolchain, installed with [`espup`](https://github.com/esp-rs/espup), and its export file sourced into the shell:
 
 ```bash
-cargo run --release --example touch --all-features --target xtensa-esp32s3-none-elf -Zbuild-std=alloc,core
+cd examples/esp32s3
+. ~/export-esp.sh
+cargo build --release
+cargo run --release          # flashes and opens a serial monitor via espflash
 ```
-
-The `build-esp32s3` cargo alias runs the same build (without flashing) as a quicker compile check: `cargo build-esp32s3 --example touch --all-features`.
 
 > **Notes:**
 > - To detect gestures, the gesture mode must be first enabled using the `set_gesture_mode` method.
@@ -64,7 +69,7 @@ The `build-esp32s3` cargo alias runs the same build (without flashing) as a quic
 
 ## Running the Tests
 
-The unit tests run on the host using `embedded-hal-mock`:
+The unit tests run on the host, against `embedded-hal-mock`, with no target or toolchain override:
 
 ```bash
 cargo test

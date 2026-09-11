@@ -1,8 +1,12 @@
-[alias]
-build-esp32s3 = "build --release --target xtensa-esp32s3-none-elf -Zbuild-std=alloc,core"
-
 [target.xtensa-esp32s3-none-elf]
 runner = "espflash flash --monitor --chip esp32s3"
+
+[build]
 rustflags = [
   "-C", "link-arg=-nostartfiles",
 ]
+
+target = "xtensa-esp32s3-none-elf"
+
+[unstable]
+build-std = ["alloc", "core"]
