@@ -39,6 +39,10 @@ embedded-hal = "1.0.0"
 embedded-hal-bus = { version = "0.3.0", optional = true }
 heapless = "0.8"
 
+# embedded-hal-mock needs std/alloc, so it and anything that pulls it in as a
+# dev-dependency must stay off the xtensa build (`cargo build --example
+# --all-features`, which builds dev-dependencies too).
+[target.'cfg(not(target_arch = "xtensa"))'.dev-dependencies]
 
 [profile.dev]
 # Rust debug is too slow.
