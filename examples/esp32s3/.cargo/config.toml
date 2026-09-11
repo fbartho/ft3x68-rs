@@ -1,0 +1,17 @@
+[target.xtensa-esp32s3-none-elf]
+runner = "espflash flash --monitor --chip esp32s3"
+
+[build]
+# ESP32-S3 IRAM is architecturally both writable and executable (esp-hal's
+# `.rwtext` linker section and `rtc_fast_seg` both map RWX memory), which
+# GNU ld 2.39+ flags by default; ESP-IDF suppresses the same warning via
+# this flag in its own build system.
+rustflags = [
+  "-C", "link-arg=-nostartfiles",
+  "-C", "link-arg=-Wl,--no-warn-rwx-segments",
+]
+
+target = "xtensa-esp32s3-none-elf"
+
+[unstable]
+build-std = ["alloc", "core"]
