@@ -47,12 +47,25 @@ loop {
 
 ## Running the Example
 
-To run the example demonstrating touch support:
+The driver crate itself is target-agnostic. The chip-specific example lives in [`examples/esp32s3/`](examples/esp32s3) as a separate cargo project that depends on this crate by path and carries its own target, toolchain, and linker configuration.
+
+Building or flashing it needs the Espressif Xtensa Rust toolchain, installed with [`espup`](https://github.com/esp-rs/espup), and its export file sourced into the shell:
 
 ```bash
-cargo run --release --example touch --all-features
+cd examples/esp32s3
+. ~/export-esp.sh
+cargo build --release
+cargo run --release          # flashes and opens a serial monitor via espflash
 ```
 
 > **Notes:**
 > - To detect gestures, the gesture mode must be first enabled using the `set_gesture_mode` method.
 > - If the reset pin is controlled via an I2C GPIO expander sharing the same bus with the touch driver, you should use the `embedded_hal_bus` to manage multiple instances of I2C. Refer to the examples folder to see how that looks like.
+
+## Running the Tests
+
+The unit tests run on the host, against `embedded-hal-mock`, with no target or toolchain override:
+
+```bash
+cargo test
+```

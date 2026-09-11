@@ -20,7 +20,7 @@
 //! 3. Initialize the touch driver.
 //! 4. Use the provided methods to read touch points and/or gestures.
 //!
-//! ```rust
+//! ```rust,ignore
 //! // Initialize GPIO Reset Pin with pin or I2C instance
 //! // ResetDriver would be a type that implements the `ResetInterface` trait.
 //! let reset = ResetDriver::new(PinInstance);

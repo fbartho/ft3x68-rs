@@ -3,8 +3,7 @@
 #![no_std]
 #![no_main]
 
-use embedded_hal::i2c::Error;
-use ft3x68_rs::{DriverError, Ft3x68Driver, PowerMode, ResetInterface, FT3168_DEVICE_ADDRESS};
+use ft3x68_rs::{Ft3x68Driver, ResetInterface, FT3168_DEVICE_ADDRESS};
 
 extern crate alloc;
 use embedded_hal_bus::i2c;
@@ -14,16 +13,9 @@ use esp_backtrace as _;
 use esp_bootloader_esp_idf::esp_app_desc;
 use esp_hal::{
     delay::Delay,
-    dma::{DmaRxBuf, DmaTxBuf},
-    dma_buffers,
     i2c::master::{Config as I2cConfig, Error as I2cError, I2c},
     main,
-    spi::{
-        master::{Config as SpiConfig, Spi},
-        Mode,
-    },
     time::Rate,
-    Blocking,
 };
 use esp_println::println;
 
