@@ -49,13 +49,11 @@ loop {
 
 The driver crate itself is target-agnostic. The chip-specific example lives in [`examples/esp32s3/`](examples/esp32s3) as a separate cargo project that depends on this crate by path and carries its own target, toolchain, and linker configuration.
 
-Building or flashing it needs the Espressif Xtensa Rust toolchain, installed with [`espup`](https://github.com/esp-rs/espup), and its export file sourced into the shell:
+Building or flashing it needs the Espressif Xtensa Rust toolchain, installed with [`espup`](https://github.com/esp-rs/espup), with the export file espup writes (`~/export-esp.sh` by default) sourced into the shell. `cargo run` flashes the board and opens a serial monitor through `espflash`:
 
 ```bash
 cd examples/esp32s3
-. ~/export-esp.sh
-cargo build --release
-cargo run --release          # flashes and opens a serial monitor via espflash
+cargo run --release
 ```
 
 > **Notes:**
