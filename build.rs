@@ -1,4 +1,13 @@
 fn main() {
+    // Xtensa-only linker scripts and wrapper; a host build (e.g. `cargo test`)
+    // has no linkall.x and no error-handling-script support.
+    if !std::env::var("TARGET")
+        .unwrap_or_default()
+        .starts_with("xtensa")
+    {
+        return;
+    }
+
     linker_be_nice();
     // make sure linkall.x is the last linker script (otherwise might cause problems with flip-link)
     println!("cargo:rustc-link-arg=-Tlinkall.x");

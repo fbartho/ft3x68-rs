@@ -56,3 +56,13 @@ cargo run --release --example touch --all-features
 > **Notes:**
 > - To detect gestures, the gesture mode must be first enabled using the `set_gesture_mode` method.
 > - If the reset pin is controlled via an I2C GPIO expander sharing the same bus with the touch driver, you should use the `embedded_hal_bus` to manage multiple instances of I2C. Refer to the examples folder to see how that looks like.
+
+## Running the Tests
+
+`.cargo/config.toml` pins the default cargo target to the Xtensa ESP32-S3 target this driver is built for, so the unit tests — which run on the host using `embedded-hal-mock` — need an explicit target override and the stable toolchain (the pinned `esp` toolchain channel does not build host binaries):
+
+```bash
+cargo +stable test --lib --target <your-host-triple>
+```
+
+For example, `aarch64-apple-darwin` on Apple Silicon Macs or `x86_64-unknown-linux-gnu` on typical Linux hosts. Run `rustc -vV` and read the `host:` line to find your triple.
