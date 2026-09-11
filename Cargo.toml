@@ -16,6 +16,10 @@ exclude = ["target/debug/*"]
 name = "ft3x68_rs"
 path = "./src/lib.rs"
 
+[[example]]
+name = "touch"
+required-features = ["esp-hal", "esp-alloc", "esp-backtrace", "esp-println", "esp-bootloader-esp-idf", "static_cell", "embedded-hal-bus", "critical-section"]
+
 [dependencies]
 # Optional dependencies for Waveshare 1.8" AMOLED display
 critical-section = { version = "1.2.0", optional = true }

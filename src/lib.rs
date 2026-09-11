@@ -20,7 +20,7 @@
 //! 3. Initialize the touch driver.
 //! 4. Use the provided methods to read touch points and/or gestures.
 //!
-//! ```rust
+//! ```rust,ignore
 //! // Initialize GPIO Reset Pin with pin or I2C instance
 //! // ResetDriver would be a type that implements the `ResetInterface` trait.
 //! let reset = ResetDriver::new(PinInstance);
@@ -59,14 +59,11 @@ pub const FT3268_DEVICE_ADDRESS: u8 = 0x38;
 
 const FT3X68_RD_DEVICE_GESTUREID: u8 = 0xD3;
 const FT3X68_RD_DEVICE_FINGERNUM: u8 = 0x02;
+// XPOSH is the first of four contiguous registers (XH, XL, YH, YL) that
+// `read_point` reads in one write_read call; the other three have no named
+// constant since they're only ever addressed by that fixed offset.
 const FT3X68_RD_DEVICE_X1POSH: u8 = 0x03;
-const FT3X68_RD_DEVICE_X1POSL: u8 = 0x04;
-const FT3X68_RD_DEVICE_Y1POSH: u8 = 0x05;
-const FT3X68_RD_DEVICE_Y1POSL: u8 = 0x06;
 const FT3X68_RD_DEVICE_X2POSH: u8 = 0x09;
-const FT3X68_RD_DEVICE_X2POSL: u8 = 0x0A;
-const FT3X68_RD_DEVICE_Y2POSH: u8 = 0x0B;
-const FT3X68_RD_DEVICE_Y2POSL: u8 = 0x0C;
 const FT3X68_RD_WR_DEVICE_GESTUREID_MODE: u8 = 0xD0;
 const FT3X68_RD_WR_DEVICE_POWER_MODE: u8 = 0xA5;
 const FT3X68_RD_WR_DEVICE_PROXIMITY_SENSING_MODE: u8 = 0xB0;
